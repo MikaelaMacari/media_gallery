@@ -1,15 +1,17 @@
-import { Button } from '@/components/ui/button.tsx';
+import Layout from '@/layout';
+import Home from '@/pages/home';
 import { useGetImagesQuery } from '@/redux/slices/imagesSlice.ts';
 
-function App() {
+const App = () => {
   const { data } = useGetImagesQuery();
   console.log(data);
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <Button>Click me</Button>
+      <Layout>
+        <Home />
+      </Layout>
     </>
   );
-}
+};
 
 export default App;
