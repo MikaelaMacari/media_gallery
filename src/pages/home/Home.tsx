@@ -1,5 +1,5 @@
-import EmptyContent from '@/components/home/emptyContent';
+import FilesContainer from '@/components/home/filesContainer';
 
-const Home = () => <EmptyContent />;
+const Home = () => <FilesContainer />;
 
 export default Home;
