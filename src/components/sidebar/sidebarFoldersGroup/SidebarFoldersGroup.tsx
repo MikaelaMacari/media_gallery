@@ -35,7 +35,7 @@ const SidebarFoldersGroup = () => {
             <SidebarMenuItem key={index}>
               <SidebarMenuButton asChild>
                 <div className="flex">
-                  <item.icon />
+                  <FolderOpen />
                   <span className="text-slate-800 font-medium">
                     {item.title}
                   </span>
