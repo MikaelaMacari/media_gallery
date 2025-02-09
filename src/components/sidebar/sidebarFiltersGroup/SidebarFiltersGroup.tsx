@@ -63,7 +63,10 @@ const SidebarFiltersGroup = () => {
                 {filters.map((item, index) => (
                   <SidebarMenuItem key={index}>
                     <div className="flex items-center">
-                      <SidebarMenuButton asChild>
+                      <SidebarMenuButton
+                        asChild
+                        className="cursor-pointer"
+                      >
                         <div className="flex">
                           <item.icon />
                           <span className="text-slate-800 font-medium">
@@ -75,7 +78,10 @@ const SidebarFiltersGroup = () => {
                         </div>
                       </SidebarMenuButton>
                     </div>
-                    <SidebarMenuAction asChild>
+                    <SidebarMenuAction
+                      asChild
+                      className="hover:bg-transparent"
+                    >
                       <span>
                         <Checkbox />
                       </span>

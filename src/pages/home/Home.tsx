@@ -1,4 +1,5 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import EmptyContent from '@/components/home/emptyContent';
 import FilesContainer from '@/components/home/filesContainer';
@@ -6,10 +7,12 @@ import {
   FileResponse,
   useGetFilesQuery,
 } from '@/redux/slices/filesApiSlice.ts';
+import { setFiles } from '@/redux/slices/filesSlice.ts';
 import { Folder, FolderTypes } from '@/redux/slices/folderSlice.ts';
-import { RootState } from '@/redux/store/store.ts';
+import { AppDispatch, RootState } from '@/redux/store/store.ts';
 
 const Home = (): React.JSX.Element => {
+  const dispatch: AppDispatch = useDispatch();
   const {
     data: ALL_FILES,
     isLoading,
@@ -28,6 +31,10 @@ const Home = (): React.JSX.Element => {
     [FolderTypes.YourFolder]: YOUR_FOLDER,
     [FolderTypes.NewFolder]: NEW_FOLDER,
   };
+
+  useEffect(() => {
+    dispatch(setFiles(!isLoading ? files[folderType] : []));
+  }, [folderType, isLoading]);
 
   return !isLoading && files[folderType].length ? (
     <FilesContainer files={files[folderType]} isLoading={isLoading} />

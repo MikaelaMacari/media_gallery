@@ -55,7 +55,13 @@ export const folderSlice: Slice<FolderStateInterface> = createSlice({
         (folder) => folder.title === action.payload.folderId,
       );
       if (folderIndex !== -1) {
-        state.folders[folderIndex].items.push(...action.payload.files);
+        const newFiles = action.payload.files.filter(
+          (file) =>
+            !state.folders[folderIndex].items.some(
+              (existingFile) => existingFile.id === file.id,
+            ),
+        );
+        state.folders[folderIndex].items.push(...newFiles);
       }
     },
 

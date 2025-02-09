@@ -28,6 +28,7 @@ const SidebarFoldersGroup = () => {
           {folders.map((folder, index) => (
             <SidebarMenuItem key={index}>
               <SidebarMenuButton
+                className="cursor-pointer"
                 asChild
                 onClick={() =>
                   dispatch(setFolderType(folder.type))
