@@ -3,10 +3,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 import filesReducer from '../slices/filesSlice.ts';
+import foldersReducer from '../slices/folderSlice.ts';
 
 export const store = configureStore({
   reducer: {
-    store: filesReducer,
+    filesReducer: filesReducer,
+    foldersReducer: foldersReducer,
     [filesApiSlice.reducerPath]: filesApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

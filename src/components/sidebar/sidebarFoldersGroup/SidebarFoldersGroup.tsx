@@ -1,4 +1,5 @@
 import { FolderOpen } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import GroupLabel from '@/components/sidebar/groupLabel/GroupLabel.tsx';
 import {
@@ -9,21 +10,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar.tsx';
-
-const folders = [
-  {
-    title: 'Your Folder',
-    count: 30,
-    icon: FolderOpen,
-  },
-  {
-    title: 'New Folder',
-    count: 0,
-    icon: FolderOpen,
-  },
-];
+import { Folder, setFolderType } from '@/redux/slices/folderSlice.ts';
+import { AppDispatch, RootState } from '@/redux/store/store.ts';
 
 const SidebarFoldersGroup = () => {
+  const folders: Folder[] = useSelector(
+    (state: RootState) => state.foldersReducer.folders,
+  );
+  const dispatch: AppDispatch = useDispatch();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>
@@ -31,16 +25,21 @@ const SidebarFoldersGroup = () => {
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {folders.map((item, index) => (
+          {folders.map((folder, index) => (
             <SidebarMenuItem key={index}>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton
+                asChild
+                onClick={() =>
+                  dispatch(setFolderType(folder.type))
+                }
+              >
                 <div className="flex">
                   <FolderOpen />
                   <span className="text-slate-800 font-medium">
-                    {item.title}
+                    {folder.title}
                   </span>
                   <span className="text-slate-400 font-medium">
-                    {item.count}
+                    {folder.items.length}
                   </span>
                 </div>
               </SidebarMenuButton>

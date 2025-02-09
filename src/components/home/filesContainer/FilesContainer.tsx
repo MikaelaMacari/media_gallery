@@ -1,19 +1,20 @@
 import FileCard from '@/components/home/filesContainer/fileCard';
-import {
-  FileResponse,
-  useGetFilesQuery,
-} from '@/redux/slices/filesApiSlice.ts';
+import { FileResponse } from '@/redux/slices/filesApiSlice.ts';
 
-const FilesContainer = () => {
-  const { data, isLoading }: { data: FileResponse; isLoading: boolean } =
-        useGetFilesQuery();
+const FilesContainer = ({
+  files,
+  isLoading,
+}: {
+  files: FileResponse;
+  isLoading: boolean;
+}) => {
   return (
     <div className="h-svh">
       <div className="flex flex-wrap gap-4">
         {isLoading ? (
-          <h1>Loading...</h1>
+          <h1 className="text-center">Loading...</h1>
         ) : (
-          data.map((item) => {
+          files.map((item) => {
             return <FileCard key={item.id} file={item} />;
           })
         )}

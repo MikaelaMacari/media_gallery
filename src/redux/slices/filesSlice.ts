@@ -1,5 +1,5 @@
 import { FileInterface } from '@/redux/slices/filesApiSlice.ts';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction, Slice } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface Folder {
@@ -11,7 +11,7 @@ export interface FileStateInterface {
   files: FileInterface[];
   folders: Folder[];
   totalFiles: number;
-  selectedFiles: number;
+  selectedFiles: FileInterface[];
   selectedFile: null | FileInterface;
 }
 
@@ -19,23 +19,37 @@ const initialState: FileStateInterface = {
   files: [],
   folders: [],
   totalFiles: 0,
-  selectedFiles: 0,
+  selectedFiles: [],
   selectedFile: null,
 };
 
-export const fileSlice = createSlice({
+export const fileSlice: Slice<FileStateInterface> = createSlice({
   name: 'files',
   initialState,
   reducers: {
-    addFile: (state) => {
-      state.files.push(state);
+    setSelectedFile: (state, { payload }: PayloadAction<FileInterface>) => {
+      state.selectedFile = payload;
     },
-    setSelectedFile: (state, action: PayloadAction<FileInterface>) => {
-      state.selectedFile = action.payload;
+    setSelectedFiles: (state, { payload }: PayloadAction<FileInterface>) =>
+      void state.selectedFiles.push(payload),
+    removeSelectedFile: (state, { payload }) =>
+      void state.selectedFiles.splice(
+        state.selectedFiles.findIndex(
+          (index) => index === payload.index,
+        ),
+        1,
+      ),
+    resetSelectedFiles: (state) => {
+      void state.selectedFiles.splice(0, state.selectedFiles.length);
     },
   },
 });
 
-export const { increment, decrement, setSelectedFile } = fileSlice.actions;
+export const {
+  removeSelectedFile,
+  setSelectedFile,
+  setSelectedFiles,
+  resetSelectedFiles,
+} = fileSlice.actions;
 
 export default fileSlice.reducer;

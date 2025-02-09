@@ -12,7 +12,7 @@ import { RootState } from '@/redux/store/store.ts';
 
 const FilesDialog = () => {
   const selectedItem: FileInterface = useSelector(
-    (state: RootState) => state.store.selectedFile,
+    (state: RootState) => state.filesReducer.selectedFile,
   );
   const isVideo = selectedItem
     ? selectedItem.url.split('.').pop() === 'mp4'
@@ -21,7 +21,7 @@ const FilesDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <span className="absolute hidden top-1 -left-1 group-hover:flex rotate-45 z-10">
+        <span className="absolute hidden top-1 -left-1 group-hover:flex rotate-45 z-10 hover:cursor-pointer">
           <ChevronLeft size="15" color="white" />
           <ChevronRight size="15" color="white" />
         </span>
