@@ -14,7 +14,9 @@ export const store = configureStore({
     [filesApiSlice.reducerPath]: filesApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(filesApiSlice.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      filesApiSlice.middleware,
+    ),
 });
 
 setupListeners(store.dispatch);

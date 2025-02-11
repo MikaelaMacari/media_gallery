@@ -68,7 +68,7 @@ export const fileSlice: Slice<FileStateInterface> = createSlice({
     },
 
     resetSelectedFiles: (state) => {
-      void state.selectedFiles.splice(0, state.selectedFiles.length);
+      state.selectedFiles = initialState.selectedFiles;
     },
   },
 });

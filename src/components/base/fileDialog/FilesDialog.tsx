@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSelector } from 'react-redux';
 
+import ImageThumbnail from '@/components/base/imageThumbnail';
+import VideoThumbnail from '@/components/base/videoThumbnail';
 import {
   Dialog,
   DialogContent,
@@ -11,7 +13,7 @@ import { FileInterface } from '@/redux/slices/filesApiSlice.ts';
 import { RootState } from '@/redux/store/store.ts';
 
 const FilesDialog = () => {
-  const selectedItem: FileInterface = useSelector(
+  const selectedItem: FileInterface | null = useSelector(
     (state: RootState) => state.filesReducer.selectedFile,
   );
   const isVideo = selectedItem
@@ -31,17 +33,14 @@ const FilesDialog = () => {
         {selectedItem ? (
           <div className="p-2 w-full">
             {isVideo ? (
-              <video
-                className="rounded-md group-hover:rounded h-full w-full object-cover object-center"
-                src={selectedItem.url}
-                alt={selectedItem.name}
+              <VideoThumbnail
+                url={selectedItem.url}
                 controls={true}
-                autoPlay={true}
+                hasPlayIcon={false}
               />
             ) : (
-              <img
-                className="rounded-md group-hover:rounded h-full w-full object-cover object-center"
-                src={selectedItem.url}
+              <ImageThumbnail
+                url={selectedItem.url}
                 alt={selectedItem.name}
               />
             )}

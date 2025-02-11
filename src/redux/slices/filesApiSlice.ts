@@ -16,18 +16,7 @@ export const filesApiSlice = createApi({
     getFiles: build.query<FileResponse, void>({
       query: () => 'files',
     }),
-    getFileById: build.query<FileInterface, void>({
-      query: (id: number) => `files/${id}`,
-    }),
-    createFiles: build.mutation<File, void>({
-      query: (payload) => ({
-        url: 'files',
-        method: 'POST',
-        body: payload,
-      }),
-    }),
   }),
 });
 
-export const { useGetFilesQuery, useCreateFilesMutation, useGetFileByIdQuery } =
-    filesApiSlice;
+export const { useGetFilesQuery } = filesApiSlice;

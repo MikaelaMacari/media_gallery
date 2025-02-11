@@ -1,7 +1,7 @@
 import { Images } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import AddToFolder from '@/components/layouts/appHeader/addToFolder/AddToFolder.tsx';
+import AddToFolder from '@/components/base/addToFolder/AddToFolder.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import {
@@ -14,21 +14,21 @@ import { AppDispatch, RootState } from '@/redux/store/store.ts';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
 const AppHeader = () => {
+  const dispatch: AppDispatch = useDispatch();
   const selectedFiles = useSelector(
     (state: RootState) => state.filesReducer.selectedFiles,
   );
   const files = useSelector((state: RootState) => state.filesReducer.files);
-  const dispatch: AppDispatch = useDispatch();
   const handleGoToFolder = (): void => {
     dispatch(setFolderType(FolderTypes.AllFiles));
-    dispatch(resetSelectedFiles());
-    dispatch(resetFiles());
+    dispatch(resetSelectedFiles([]));
+    dispatch(resetFiles([]));
   };
-  const handleSelectAllFiles = (value: CheckedState) => {
-    if (value) {
+  const handleSelectAllFiles = (checked: CheckedState): void => {
+    if (checked) {
       dispatch(setSelectedFiles(files));
     } else {
-      dispatch(resetSelectedFiles());
+      dispatch(resetSelectedFiles([]));
     }
   };
   return (

@@ -1,7 +1,7 @@
 import { FolderOpen } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import GroupLabel from '@/components/sidebar/groupLabel/GroupLabel.tsx';
+import GroupLabel from '@/components/base/groupLabel/GroupLabel.tsx';
 import {
   SidebarGroup,
   SidebarGroupContent,

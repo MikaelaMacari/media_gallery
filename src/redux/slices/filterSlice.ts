@@ -1,4 +1,15 @@
+import { ForwardRefExoticComponent, RefAttributes } from 'react';
+import { Image, ImagePlay, LucideProps, Play } from 'lucide-react';
+
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
+
+export interface FilterInterface {
+  title: string;
+  type: FilterTypes;
+  icon: ForwardRefExoticComponent<
+        Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+  >;
+}
 
 export enum FilterTypes {
   Image = 'photo',
@@ -7,11 +18,29 @@ export enum FilterTypes {
 }
 
 export interface FilterStateInterface {
-  filterType: FilterTypes | string;
+  filters: FilterInterface[];
+  selectedFilterTypes: FilterTypes[];
 }
 
 const initialState: FilterStateInterface = {
-  filterType: '',
+  filters: [
+    {
+      title: 'Image',
+      type: FilterTypes.Image,
+      icon: Image,
+    },
+    {
+      title: 'Videos',
+      type: FilterTypes.Video,
+      icon: Play,
+    },
+    {
+      title: 'GIFs',
+      type: FilterTypes.Gif,
+      icon: ImagePlay,
+    },
+  ],
+  selectedFilterTypes: [],
 };
 
 export const filterSlice: Slice<FilterStateInterface> = createSlice({
@@ -20,9 +49,13 @@ export const filterSlice: Slice<FilterStateInterface> = createSlice({
   reducers: {
     setFilterType: (
       state,
-      { payload: filterType }: PayloadAction<FilterTypes>,
+      { payload: filterType }: PayloadAction<FilterTypes | FilterTypes[]>,
     ) => {
-      state.filterType = filterType;
+      if (Array.isArray(filterType)) {
+        state.selectedFilterTypes = filterType;
+      } else {
+        state.selectedFilterTypes.push(filterType);
+      }
     },
   },
 });

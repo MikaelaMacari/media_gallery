@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import FileCard from '@/components/home/filesContainer/fileCard';
+import FileCard from '@/components/base/fileCard';
 import { FileInterface } from '@/redux/slices/filesApiSlice.ts';
 import { RootState } from '@/redux/store/store.ts';
 

@@ -23,7 +23,7 @@ const AddToFolder = () => {
   const dispatch: AppDispatch = useDispatch();
   const handleChange = (value: string): void => {
     dispatch(addFileToFolder({ folderId: value, files: selectedFiles }));
-    dispatch(resetSelectedFiles());
+    dispatch(resetSelectedFiles([]));
   };
 
   return (
