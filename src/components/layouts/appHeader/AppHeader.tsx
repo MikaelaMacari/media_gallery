@@ -5,6 +5,7 @@ import AddToFolder from '@/components/layouts/appHeader/addToFolder/AddToFolder.
 import { Button } from '@/components/ui/button.tsx';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import {
+  resetFiles,
   resetSelectedFiles,
   setSelectedFiles,
 } from '@/redux/slices/filesSlice.ts';
@@ -17,11 +18,11 @@ const AppHeader = () => {
     (state: RootState) => state.filesReducer.selectedFiles,
   );
   const files = useSelector((state: RootState) => state.filesReducer.files);
-
   const dispatch: AppDispatch = useDispatch();
   const handleGoToFolder = (): void => {
     dispatch(setFolderType(FolderTypes.AllFiles));
     dispatch(resetSelectedFiles());
+    dispatch(resetFiles());
   };
   const handleSelectAllFiles = (value: CheckedState) => {
     if (value) {
@@ -34,6 +35,7 @@ const AppHeader = () => {
     <div className="bg-white h-20 w-full border-solid border-b border-bg-gray-300 flex items-center">
       <div className="flex items-center gap-2">
         <Checkbox
+          checked={selectedFiles.length === files.length}
           onCheckedChange={(event: CheckedState) =>
             handleSelectAllFiles(event)
           }

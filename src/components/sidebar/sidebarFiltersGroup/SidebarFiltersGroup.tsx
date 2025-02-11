@@ -1,4 +1,6 @@
-import { ChevronDown, Image, ImagePlay, Play } from 'lucide-react';
+import { ForwardRefExoticComponent, RefAttributes, useState } from 'react';
+import { ChevronDown, Image, ImagePlay, LucideProps, Play } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { Collapsible } from '@/components/ui/collapsible.tsx';
@@ -11,6 +13,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar.tsx';
+import { FileInterface } from '@/redux/slices/filesApiSlice.ts';
+import { filterFiles, resetFiles } from '@/redux/slices/filesSlice.ts';
+import { FilterTypes } from '@/redux/slices/filterSlice.ts';
+import { AppDispatch, RootState } from '@/redux/store/store.ts';
+import { CheckedState } from '@radix-ui/react-checkbox';
 import {
   CollapsibleContent,
   CollapsibleTrigger,
@@ -18,25 +25,75 @@ import {
 
 import GroupLabel from '../groupLabel';
 
-const filters = [
+interface FilterInterface {
+  title: string;
+  type: FilterTypes;
+  icon: ForwardRefExoticComponent<
+        Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+  >;
+}
+
+const filters: FilterInterface[] = [
   {
     title: 'Image',
-    count: 0,
+    type: FilterTypes.Image,
     icon: Image,
   },
   {
     title: 'Videos',
-    count: 0,
+    type: FilterTypes.Video,
     icon: Play,
   },
   {
     title: 'GIFs',
-    count: 0,
+    type: FilterTypes.Gif,
     icon: ImagePlay,
   },
 ];
 
 const SidebarFiltersGroup = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const files: FileInterface[] = useSelector(
+    (state: RootState) => state.filesReducer.files,
+  );
+  const [selectedFilterTypes, setSelectedFilterTypes] = useState<
+    FilterTypes[]
+  >([]);
+  const getFilteredFilesLength = (type: FilterTypes) => {
+    return files.filter((item) => item.url.includes(type)).length;
+  };
+  const handleChange = (type: FilterTypes, event: CheckedState): void => {
+    let updatedTypes = [...selectedFilterTypes];
+
+    if (event) {
+      updatedTypes.push(type);
+    } else {
+      updatedTypes = updatedTypes.filter((item) => item !== type);
+    }
+
+    setSelectedFilterTypes(updatedTypes);
+
+    const allSelected = filters.every((item) =>
+      updatedTypes.includes(item.type),
+    );
+
+    if (allSelected) {
+      dispatch(filterFiles(updatedTypes));
+    } else {
+      dispatch(filterFiles(updatedTypes));
+    }
+  };
+
+  const handleSelectAllFilters = (value: CheckedState) => {
+    if (value) {
+      const allFilterTypes = filters.map((item) => item.type);
+      setSelectedFilterTypes(allFilterTypes);
+      dispatch(filterFiles(allFilterTypes));
+    } else {
+      setSelectedFilterTypes([]);
+      dispatch(resetFiles());
+    }
+  };
   return (
     <>
       <SidebarGroup>
@@ -54,7 +111,15 @@ const SidebarFiltersGroup = () => {
               </CollapsibleTrigger>
             </SidebarGroupLabel>
             <span className="mr-1.5">
-              <Checkbox />
+              <Checkbox
+                checked={
+                  selectedFilterTypes.length ===
+                                    filters.length
+                }
+                onCheckedChange={(event: CheckedState) =>
+                  handleSelectAllFilters(event)
+                }
+              />
             </span>
           </div>
           <CollapsibleContent>
@@ -73,7 +138,9 @@ const SidebarFiltersGroup = () => {
                             {item.title}
                           </span>
                           <span className="text-slate-400 font-medium">
-                            {item.count}
+                            {getFilteredFilesLength(
+                              item.type,
+                            )}
                           </span>
                         </div>
                       </SidebarMenuButton>
@@ -83,7 +150,19 @@ const SidebarFiltersGroup = () => {
                       className="hover:bg-transparent"
                     >
                       <span>
-                        <Checkbox />
+                        <Checkbox
+                          checked={selectedFilterTypes.includes(
+                            item.type,
+                          )}
+                          onCheckedChange={(
+                            event: CheckedState,
+                          ) =>
+                            handleChange(
+                              item.type,
+                              event,
+                            )
+                          }
+                        />
                       </span>
                     </SidebarMenuAction>
                   </SidebarMenuItem>

@@ -31,13 +31,13 @@ const Home = (): React.JSX.Element => {
     [FolderTypes.YourFolder]: YOUR_FOLDER,
     [FolderTypes.NewFolder]: NEW_FOLDER,
   };
-
+  
   useEffect(() => {
     dispatch(setFiles(!isLoading ? files[folderType] : []));
   }, [folderType, isLoading]);
 
   return !isLoading && files[folderType].length ? (
-    <FilesContainer files={files[folderType]} isLoading={isLoading} />
+    <FilesContainer />
   ) : (
     <EmptyContent />
   );
