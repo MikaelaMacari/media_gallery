@@ -71,7 +71,11 @@ const FileCard = ({ file }: { file: FileInterface }) => {
           />
         </div>
       </div>
-      <FileName name={file.name} isSelected={Boolean(isSelected)} />
+      <FileName
+        name={file.name}
+        isSelected={Boolean(isSelected)}
+        id={file.id}
+      />
     </div>
   );
 };
