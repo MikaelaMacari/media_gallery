@@ -44,7 +44,6 @@ export const EditFileName = ({ name, id }: { id: number; name: string }) => {
 
   const onSubmit = (formData: z.infer<typeof FormSchema>) => {
     updateFile({ id: id, name: formData.name });
-    window.location.reload();
   };
 
   return (

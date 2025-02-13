@@ -49,10 +49,13 @@ export const folderSlice: Slice<FolderStateInterface> = createSlice({
     },
     addFileToFolder: (
       state,
-      action: PayloadAction<{ folderId: string; files: FileInterface[] }>,
+      action: PayloadAction<{
+        folderId: FolderTypes;
+        files: FileInterface[];
+      }>,
     ) => {
       const folderIndex = state.folders.findIndex(
-        (folder) => folder.title === action.payload.folderId,
+        (folder) => folder.type === action.payload.folderId,
       );
       if (folderIndex !== -1) {
         const newFiles = action.payload.files.filter(

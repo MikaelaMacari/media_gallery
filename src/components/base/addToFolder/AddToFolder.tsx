@@ -10,7 +10,11 @@ import {
 } from '@/components/ui/select.tsx';
 import { FileInterface } from '@/redux/slices/filesApiSlice.ts';
 import { resetSelectedFiles } from '@/redux/slices/filesSlice.ts';
-import { addFileToFolder, Folder } from '@/redux/slices/folderSlice.ts';
+import {
+  addFileToFolder,
+  Folder,
+  FolderTypes,
+} from '@/redux/slices/folderSlice.ts';
 import { AppDispatch, RootState } from '@/redux/store/store.ts';
 
 const AddToFolder = () => {
@@ -21,13 +25,13 @@ const AddToFolder = () => {
     (state: RootState) => state.filesReducer.selectedFiles,
   );
   const dispatch: AppDispatch = useDispatch();
-  const handleChange = (value: string): void => {
+  const handleChange = (value: FolderTypes): void => {
     dispatch(addFileToFolder({ folderId: value, files: selectedFiles }));
     dispatch(resetSelectedFiles([]));
   };
 
   return (
-    <Select onValueChange={(value: string) => handleChange(value)}>
+    <Select onValueChange={(value: FolderTypes) => handleChange(value)}>
       <SelectTrigger className="w-[150px] ml-6">
         <SelectValue placeholder="Add to Folder" />
       </SelectTrigger>
@@ -35,7 +39,7 @@ const AddToFolder = () => {
         <SelectGroup>
           {folders.map((folder) => {
             return (
-              <SelectItem value={folder.title} key={folder.id}>
+              <SelectItem value={folder.type} key={folder.id}>
                 {folder.title}
               </SelectItem>
             );

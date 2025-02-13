@@ -29,10 +29,9 @@ const Home = () => {
     [FolderTypes.YourFolder]: YOUR_FOLDER,
     [FolderTypes.NewFolder]: NEW_FOLDER,
   };
-
   useEffect(() => {
     dispatch(setFiles(!isLoading ? files[folderType] : []));
-  }, [folderType, isLoading]);
+  }, [ALL_FILES, folderType, isLoading]);
 
   return !isLoading && files[folderType].length ? (
     <FilesContainer />

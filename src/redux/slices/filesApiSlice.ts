@@ -15,6 +15,7 @@ export const filesApiSlice = createApi({
   endpoints: (builder) => ({
     getFiles: builder.query<FileResponse, void>({
       query: () => 'files',
+      providesTags: ['Files'],
     }),
     updateFile: builder.mutation({
       query: ({ id, name }) => ({

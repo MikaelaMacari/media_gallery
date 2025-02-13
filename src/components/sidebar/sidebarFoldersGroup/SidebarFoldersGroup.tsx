@@ -10,14 +10,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar.tsx';
-import { Folder, setFolderType } from '@/redux/slices/folderSlice.ts';
+import {
+  Folder,
+  setFolderType,
+} from '@/redux/slices/folderSlice.ts';
 import { AppDispatch, RootState } from '@/redux/store/store.ts';
 
 const SidebarFoldersGroup = () => {
+  const dispatch: AppDispatch = useDispatch();
   const folders: Folder[] = useSelector(
     (state: RootState) => state.foldersReducer.folders,
   );
-  const dispatch: AppDispatch = useDispatch();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>
@@ -30,9 +34,9 @@ const SidebarFoldersGroup = () => {
               <SidebarMenuButton
                 className="cursor-pointer"
                 asChild
-                onClick={() =>
-                  dispatch(setFolderType(folder.type))
-                }
+                onClick={() => {
+                  dispatch(setFolderType(folder.type));
+                }}
               >
                 <div className="flex">
                   <FolderOpen />
